@@ -31,6 +31,7 @@ class UserController extends Controller
         return view('Admin.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -122,7 +123,7 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
-        $user->delete($user);
+        $user->delete();
         return redirect()->route('users.index');
     }
 }

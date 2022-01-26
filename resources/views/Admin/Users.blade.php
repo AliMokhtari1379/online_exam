@@ -8,6 +8,7 @@
             <th>name</th>
             <th>family</th>
             <th>username</th>
+            <th>rule</th>
             <th>مشخصات</th>
         </tr>
             @foreach ($users as $row)
@@ -16,6 +17,7 @@
             <td>{{$row->name }}</td>
             <td>{{$row->family }}</td>
             <td>{{$row->username }}</td>
+            <td>{{$row->rule }}</td>
             <td>  <a class="btn btn-sm btn-dark" href="{{ route('users.show', ['user' => $row->id]) }}">
                     نمایش
                 </a></td>

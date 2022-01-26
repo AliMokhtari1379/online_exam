@@ -19,7 +19,21 @@
                                     <strong>{{ $message }}</strong>
                                 </p>
                                 @enderror
-                            </div><div class="form-group">
+                            </div>
+                            <div class="form-group">
+                                <label for="user_id">teacher</label>
+                                <select class="form-select" aria-label="Default select example" name="user_id" id="user_id" >
+                                    @foreach($result as $user)
+                                        <option value="{{$user->id}}">{{$user->name}} </option>
+                                    @endforeach
+                                </select>
+                                @error('title')
+                                <p class="invalid-feedback d-block">
+                                    <strong>{{ $message }}</strong>
+                                </p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="start_at">start </label>
                                 <input type="date" id="start_at" name="start_at" class="form-control @error('start_at') form-control-invalid @enderror" value="{{ old('start_at') }}">
                                 @error('start_at')

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curse;
+use App\Models\CurseUser;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CurseController extends Controller
 {
@@ -25,9 +28,19 @@ class CurseController extends Controller
      */
     public function create()
     {
-       return view('Admin.Curse.create');
+        $result=User::query()->where('rule','teacher')->get();
+
+       return view('Admin.Curse.create',compact('result'));
+
     }
 
+    public function Add()
+    {
+        $result=User::query()->where('rule','students')->get();
+        $re=Curse::all();
+        return view('Admin.Curse.Add',compact('result','re'));
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -37,6 +50,7 @@ class CurseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id' => 'required',
             'name' => 'required',
             'start_at' => 'required',
             'end_at' => 'required',
@@ -44,6 +58,7 @@ class CurseController extends Controller
         ]);
 
         Curse::create([
+            'user_id' => $request->user_id,
             'name' => $request->name,
             'start_at' => $request->start_at,
             'end_at' => $request->end_at,
@@ -52,6 +67,14 @@ class CurseController extends Controller
         return redirect()->route('curse.index');
     }
 
+    public function zakhire(Request $request)
+    {
+        $input=$request->all();
+       CurseUser::query()->insert(['curse_id'=>$input['curse_id'],
+       'user_id' =>$input['user_id'],
+       ]);
+
+    }
     /**
      * Display the specified resource.
      *
@@ -60,7 +83,9 @@ class CurseController extends Controller
      */
     public function show(Curse $curse)
     {
-        return view('Admin.Curse.show', compact('curse'));
+        $flights = $curse->teacher()->get();
+        $result=$curse->users()->get();
+        return view('Admin.Curse.show', compact('result','flights'));
     }
 
     /**
